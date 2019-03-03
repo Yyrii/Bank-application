@@ -1,8 +1,22 @@
 import sqlite3 as lite
 
+adress = 'bank_data\\bank.db'
+table_name = 'Accounts'
+
+def connector(adress):
+    return lite.connect(adress)
+
+
+def add_account(key, holder, number, starting_amount=1000):
+    con = connector(adress)
+    parameters = (key,holder,number,starting_amount)
+    with con:
+        cur = con.cursor()
+        cur.execute("INSERT INTO Accounts VALUES(?,?,?,?)", parameters)
+
 
 def table():
-    con = lite.connect('bank_data\\bank.db')
+    con = connector(adress)
 
     with con:
         cur = con.cursor()
