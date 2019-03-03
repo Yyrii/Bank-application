@@ -1,10 +1,15 @@
 import sql_operations.table_creation as create
-import sql_operations.functions as fun
+import sql_operations.acc_functions as fun
 
-#table_name = 'Accounts'
+acc_table = 'Accounts'
+user_table = 'Users'
+
 
 if __name__ == "__main__":
-    create.table()
-    fun.add_account(1,'Andrzej',123452342,200)
-    fun.add_account(2, 'bober', 5555555, 1200)
+    create.account_table(acc_table)
+    fun.add_account(1,'Andrzej',123452342,200,'PL')
+    fun.add_account(2, 'bober', 5555555, 1200,'EUR')
+    fun.remove_account(acc_table, 2)
+
+    create.user_table(user_table)
 

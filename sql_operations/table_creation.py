@@ -1,10 +1,21 @@
 import sqlite3 as lite
 
 
-def table():
+#konto: id, właściciel, numer konta, hajs, waluta
+def account_table(name):
     con = lite.connect('bank_data\\bank.db')
 
     with con:
         cur = con.cursor()
-        cur.execute("DROP TABLE IF EXISTS Accounts")
-        cur.execute("CREATE TABLE Accounts(Id INT PRIMARY KEY ASC, holder TEXT, number INT, amount INT)")
+        cur.execute("DROP TABLE IF EXISTS {}".format(name))
+        cur.execute("CREATE TABLE {}(acc_id TEXT PRIMARY KEY ASC, holder TEXT, number INT, amount INT, currency TEXT)".format(name))
+
+
+# użytkownik: id, nazwa, id połączone z walutowym złotówkowym, z euro
+def user_table(name):
+    con = lite.connect('bank_data\\bank.db')
+
+    with con:
+        cur = con.cursor()
+        cur.execute("DROP TABLE IF EXISTS {}".format(name))
+        cur.execute("CREATE TABLE {}(user_id INT PRIMARY KEY ASC, name TEXT, pl_acc_id TEXT, eur_acc_id TEXT)".format(name))
