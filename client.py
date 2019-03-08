@@ -12,5 +12,7 @@ if __name__ == "__main__":
     acc.add_account(acc_table, 2, 'bober', 5555555, 1200, 'EUR')
     acc.remove_account(acc_table, 2)
 
+    acc.deposit(acc_table,1,400)
+
     create.user_table(user_table)
     user.add_user(user_table,1,'ktos','as12')
