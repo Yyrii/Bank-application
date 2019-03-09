@@ -18,4 +18,4 @@ def user_table(name, adress='bank_data\\bank.db'):
     with con:
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS {}".format(name))
-        cur.execute("CREATE TABLE {}(user_id INT PRIMARY KEY ASC, name TEXT, pl_currency TEXT, eur_acc_id TEXT)".format(name))
+        cur.execute("CREATE TABLE {}(user_id INT PRIMARY KEY ASC, name TEXT, PL_acc_id TEXT, EUR_acc_id TEXT)".format(name))

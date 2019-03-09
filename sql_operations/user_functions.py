@@ -1,5 +1,6 @@
 from sql_operations.connection import*
 from sql_operations.table_creation import*
+import sql_operations.acc_functions as account
 
 def add_user(table, user_id, name, pl_acc_id='NULL', eur_acc_id='NULL', adress='bank_data\\bank.db'):
     con = connector(adress)
@@ -29,6 +30,26 @@ def check_for_user(table='Users', adress='bank_data\\bank.db',**arguments):
             return True
         else:
             return False
+
+def create_account(user_id, acc_key, number, currency, adress='bank_data\\bank.db', user_table='Users'):
+    #key,number - losowo
+    account.add_account(acc_id=acc_key, holder=user_id, number=number, currency=currency, adress=adress)
+    con = connector(adress)
+    with con:
+        cur = con.cursor()
+    command = "UPDATE {} SET {} = \"{}\"  WHERE user_id = {};".format(user_table, currency +'_acc_id', acc_key, user_id)
+    cur.execute(command)
+    con.commit()
+
+#AGRUMENTS SHOULD BE ENTERED THIS WAY: PL_acc_id= [user id to be checked]
+def display_data_user(adress='bank_data\\bank.db', user_table='Users', **arguments):
+    con = connector(adress)
+    with con:
+        cur = con.cursor()
+    for key_word, arg in arguments.items():
+        cur.execute("SELECT {} FROM {} WHERE user_id = \"{}\"".format(key_word,user_table,arg))
+        return cur.fetchall()[0][0]
+
 
 def clear_table(table='Users',adress='bank_data\\bank.db'):
     user_table(name=table)
