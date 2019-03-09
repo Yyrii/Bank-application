@@ -2,8 +2,8 @@ import sqlite3 as lite
 
 
 #konto: id, właściciel, numer konta, hajs, waluta
-def account_table(name):
-    con = lite.connect('bank_data\\bank.db')
+def account_table(name, adress='bank_data\\bank.db'):
+    con = lite.connect(adress)
 
     with con:
         cur = con.cursor()
@@ -12,10 +12,10 @@ def account_table(name):
 
 
 # użytkownik: id, nazwa, id połączone z walutowym złotówkowym, z euro
-def user_table(name):
-    con = lite.connect('bank_data\\bank.db')
+def user_table(name, adress='bank_data\\bank.db'):
+    con = lite.connect(adress)
 
     with con:
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS {}".format(name))
-        cur.execute("CREATE TABLE {}(user_id INT PRIMARY KEY ASC, name TEXT, pl_acc_id TEXT, eur_acc_id TEXT)".format(name))
+        cur.execute("CREATE TABLE {}(user_id INT PRIMARY KEY ASC, name TEXT, pl_currency TEXT, eur_acc_id TEXT)".format(name))
