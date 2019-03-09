@@ -6,7 +6,6 @@ def add_user(table, user_id, name, pl_acc_id='NULL', eur_acc_id='NULL', adress='
     parameters = (user_id, name, pl_acc_id, eur_acc_id)
     with con:
         cur = con.cursor()
-        #if check_for_user(table,name=name,user_id=user_id) == False:
         try:
             cur.execute("INSERT INTO {} VALUES(?,?,?,?)".format(table), parameters)
         except Exception as e:

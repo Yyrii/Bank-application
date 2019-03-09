@@ -23,7 +23,6 @@ if __name__ == "__main__":
     user.add_user(user_table,5,'ktos2')
 
     print(user.check_for_user(name='kto'))
-    user.clear_table()
 
     app = BankApplication()
     app.mainloop()
