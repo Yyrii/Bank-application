@@ -16,11 +16,11 @@ if __name__ == "__main__":
     acc.deposit(1,400,table=acc_table)
 
     create.user_table(user_table)
-    user.add_user(user_table,1,'ktos')
-    user.add_user(user_table,2,'ktos2')
-    user.add_user(user_table,3,'ktos2')
-    user.add_user(user_table,4,'ktos2')
-    user.add_user(user_table,5,'ktos2')
+    user.add_user(user_table,'ktos')
+    user.add_user(user_table,'ktos2')
+    user.add_user(user_table,'ktos2')
+    user.add_user(user_table,'ktos2')
+    user.add_user(user_table,'ktos2')
 
     #print(user.check_for_user(name='kto'))
 

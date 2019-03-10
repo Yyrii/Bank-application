@@ -13,7 +13,7 @@ class BankApplication(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, Stats):
+        for F in (StartPage, Stats, UserPanel):
             frame = F(container, self)
 
             self.frames[F] = frame

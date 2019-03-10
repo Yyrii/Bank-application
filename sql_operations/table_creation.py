@@ -8,7 +8,7 @@ def account_table(name, adress='bank_data\\bank.db'):
     with con:
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS {}".format(name))
-        cur.execute("CREATE TABLE {}(acc_id TEXT PRIMARY KEY ASC, holder TEXT, number INT, amount INT, currency TEXT)".format(name))
+        cur.execute("CREATE TABLE {}(acc_id TEXT PRIMARY KEY ASC, holder TEXT, number INT UNIQUE, amount INT, currency TEXT)".format(name))
 
 
 # użytkownik: id, nazwa, id połączone z walutowym złotówkowym, z euro

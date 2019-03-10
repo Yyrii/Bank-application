@@ -1,14 +1,17 @@
 from sql_operations.connection import*
 from sql_operations.table_creation import*
 import sql_operations.acc_functions as account
+from sql_operations.global_variables import*
 
-def add_user(table, user_id, name, pl_acc_id='NULL', eur_acc_id='NULL', adress='bank_data\\bank.db'):
+def add_user(table, name, pl_acc_id='NULL', eur_acc_id='NULL', adress='bank_data\\bank.db'):
     con = connector(adress)
-    parameters = (user_id, name, pl_acc_id, eur_acc_id)
+    global global_user_id
+    parameters = (global_user_id, name, pl_acc_id, eur_acc_id)
     with con:
         cur = con.cursor()
         try:
             cur.execute("INSERT INTO {} VALUES(?,?,?,?)".format(table), parameters)
+            global_user_id += 1
         except Exception as e:
             print(e)
 
@@ -28,8 +31,7 @@ def check_for_user(table='Users', adress='bank_data\\bank.db',**arguments):
         results = cur.fetchall()
         if len(results) > 0:
             return True
-        else:
-            return False
+    return False
 
 def create_account(user_id, acc_key, number, currency, adress='bank_data\\bank.db', user_table='Users'):
     #key,number - losowo
