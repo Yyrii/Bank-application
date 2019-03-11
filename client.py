@@ -2,6 +2,7 @@ import sql_operations.table_creation as create
 import sql_operations.acc_functions as acc
 import sql_operations.user_functions as user
 from interface.App import*
+import backend.front_panel as b_end
 
 acc_table = 'Accounts'
 user_table = 'Users'
@@ -26,6 +27,13 @@ if __name__ == "__main__":
 
     user.create_account(2,'user2_pl',41241414,'PL')
     print(acc.check_money(1))
+
+    b_end.register('Karoline')
+    b_end.register('Karoline')
+    b_end.register('Karoline')
+    b_end.register('Karoline')
+
+    user_panel.add_account(6,'EUR')
 
     app = BankApplication()
     app.mainloop()
