@@ -4,13 +4,15 @@ from random_data.id_name import*
 from random_data.numbers import*
 from sql_operations.global_variables import*
 import backend.user_panel as user_panel
+from interface.Pages import*
 
 
 user_table = 'Users'
 def register(input_name,adress='bank_data\\bank.db'):
     user.add_user(user_table,input_name,adress=adress)
     Global_var.current_user_id = Global_var.global_user_id
-    user_panel.Optional_labels.label_name_out = Global_var.current_user_id
+    user_panel.Optional_labels.label_id_out = Global_var.current_user_id
+    user_panel.Optional_labels.label_name_out = user.display_data_user(name=user_panel.Optional_labels.label_id_out -1)
     return Global_var.current_user_id
 
 

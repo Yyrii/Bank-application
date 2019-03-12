@@ -11,6 +11,7 @@ def add_user(table, name, pl_acc_id='NULL', eur_acc_id='NULL', adress='bank_data
         try:
             cur.execute("INSERT INTO {} VALUES(?,?,?,?)".format(table), parameters)
             Global_var.global_user_id += 1
+            con.commit()
         except Exception as e:
             print(e)
 
@@ -32,13 +33,13 @@ def check_for_user(table='Users', adress='bank_data\\bank.db',**arguments):
             return True
     return False
 
-def create_account(holder_name, acc_key, number, currency, adress='bank_data\\bank.db', user_table='Users'):
-    #key,number - losowo
-    account.add_account(acc_id=acc_key, holder=holder_name, number=number, currency=currency, adress=adress)
+def create_account(user_id, acc_key, number, currency, adress='bank_data\\bank.db', user_table='Users'):
+    holder = display_data_user(name=user_id)
+    account.add_account(acc_id=acc_key, holder=holder, number=number, currency=currency, adress=adress)
     con = connector(adress)
     with con:
         cur = con.cursor()
-    command = "UPDATE {} SET {} = \"{}\"  WHERE user_id = {};".format(user_table, currency +'_acc_id', acc_key, holder_name)
+    command = "UPDATE {} SET {} = \"{}\"  WHERE user_id = {};".format(user_table, currency +'_acc_id', acc_key, user_id)
     cur.execute(command)
     con.commit()
 

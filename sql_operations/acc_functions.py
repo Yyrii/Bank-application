@@ -13,7 +13,8 @@ def remove_account(acc_id, table='Accounts', adress='bank_data\\bank.db'):
     con = connector(adress)
     with con:
         cur = con.cursor()
-        cur.execute("DELETE FROM {} WHERE acc_id={}".format(table, acc_id))
+        command = "DELETE FROM {} WHERE acc_id=\"{}\"".format(table, str(acc_id))
+        cur.execute(command)
 
 def deposit(acc_id, money, table='Accounts', adress='bank_data\\bank.db'):
     con = connector(adress)

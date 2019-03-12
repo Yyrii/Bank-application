@@ -25,3 +25,4 @@ class BankApplication(tk.Tk):
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+        frame.event_generate("<<ShowFrame>>")

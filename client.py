@@ -25,15 +25,15 @@ if __name__ == "__main__":
 
     #print(user.check_for_user(name='kto'))
 
-    user.create_account(2,'user2_pl',41241414,'PL')
+    user.create_account(2,'user2_PL',41241414,'PL')
     print(acc.check_money(1))
 
     b_end.register('Karoline')
     b_end.register('Karoline')
-    b_end.register('Karoline')
-    b_end.register('Karoline')
+
 
     user_panel.add_account(6,'EUR')
+    user_panel.delete_account('6_EUR')
 
     app = BankApplication()
     app.mainloop()
