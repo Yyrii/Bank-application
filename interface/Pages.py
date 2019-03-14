@@ -45,6 +45,7 @@ class StartPage(tk.Frame):
 
     def login(self,controller):
         current_user = front_panel.login(self.Name_input.get())
+        user_panel.dig_accounts(Global_var().return_current_id())
         if current_user:
             controller.show_frame(UserPanel)
 
@@ -120,7 +121,7 @@ class UserPanel(tk.Frame):
         self.Button_log_out = tk.Button(self,text='Log out',command=lambda: self.back_home(controller))
         self.Button_log_out.place(relx=0.432, rely=0.206, height=54, width=77)
 
-        self.Button_add_pl_acc = tk.Button(self,text='+')
+        self.Button_add_pl_acc = tk.Button(self,text='+',command=lambda : self.add_pl_acc())
         self.Button_add_pl_acc.place(relx=0.904, rely=0.103, height=24, width=27)
 
         self.Button_transfer = tk.Button(self,text='transfer',command=lambda: None)
@@ -132,7 +133,7 @@ class UserPanel(tk.Frame):
         self.Entry_amount = tk.Entry(self)
         self.Entry_amount.place(relx=0.196, rely=0.653, height=20, relwidth=0.244)
 
-        self. Button_add_eur_acc = tk.Button(self,text='+')
+        self.Button_add_eur_acc = tk.Button(self,text='+')
         self.Button_add_eur_acc.place(relx=0.904, rely=0.481, height=24, width=27)
 
         self.Button_delete_pl_acc = tk.Button(self,text='-')
@@ -158,14 +159,14 @@ class UserPanel(tk.Frame):
     def on_show_frame(self,event):
         self.user_labels()
 
-    def change_labels(self):
-        self.label_name_out = user_panel.User_labels.name
-        self.label_id_out = user_panel.User_labels.id
-        self.update()
 
     def back_home(self,controller):
         controller.show_frame(StartPage)
+        #TODO: reset User_labels 
 
+    def add_pl_acc(self):
+        user_panel.add_account(Global_var().return_current_id(),'PL')
+        #print(Global_var().return_current_id())
 
     def user_labels(self):
         self.label_name_out = tk.Label(self, text=user_panel.User_labels().return_var('name'))
@@ -185,7 +186,7 @@ class UserPanel(tk.Frame):
         self.label_pl_amount_out.update()
 
         self.label_eur_number_out = tk.Label(self.Frame3, text=user_panel.User_labels().return_var('eur_number'))
-        self.label_eur_number_out.place(relx=0.514, rely=0.133, height=21, width=34)
+        self.label_eur_number_out.place(relx=0.514, rely=0.133, height=21, width=64)
         self.label_eur_number_out.update()
 
         self.label_eur_amount_out = tk.Label(self.Frame3, text=user_panel.User_labels().return_var('eur_amount'))

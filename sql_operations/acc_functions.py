@@ -53,5 +53,10 @@ def display_data_acc(adress='bank_data\\bank.db', acc_table='Accounts',**argumen
     with con:
         cur = con.cursor()
     for key_word, arg in arguments.items():
+
+        #if check_for_acc(arg):
+
         cur.execute("SELECT {} FROM {} WHERE acc_id = \"{}\"".format(key_word,acc_table,arg))
         return cur.fetchall()[0][0]
+        #else:
+           # print('no account', arg)

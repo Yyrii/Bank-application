@@ -21,8 +21,6 @@ class User_labels():
         }
         return options_dic[arg]
 
-    #def change_var
-
 
 
 def acc_id_creation(user_id,currency):
@@ -33,10 +31,20 @@ def add_account(user_id,currency):
     holder_name = user.display_data_user(name=user_id)
     user.create_account(user_id=user_id, acc_key=acc_id_creation(user_id=user_id, currency=currency),
                         number=random_acc_number(), currency=currency)
+    #dig_accounts(user_id)
 
 def delete_account(acc_id):
     acc.remove_account(acc_id=acc_id)
+    #Todo: usunąć połaćzenie z kontem w bazie danych
 
-
-def change_name_out(new_name):
-    User_labels.name = new_name
+def dig_accounts(user_id):
+    pl_acc_id = user.display_data_user(Pl_acc_id=user_id)
+    try:
+        User_labels.pl_number = acc.display_data_acc(number=pl_acc_id)
+    except:
+        print('user: ',user_id,' has no pl acc')
+    eur_acc_id = user.display_data_user(EUR_acc_id=user_id)
+    try:
+        User_labels.eur_number = acc.display_data_acc(number=eur_acc_id)
+    except:
+        print('user: ',user_id,' has no eur acc')
