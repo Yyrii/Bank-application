@@ -150,44 +150,44 @@ class UserPanel(tk.Frame):
         self.TCombobox1 = ttk.Combobox(self,textvariable='')
         self.TCombobox1.place(relx=0.196, rely=0.756, relheight=0.072, relwidth=0.163)
 
-        self.Button_refresh = tk.Button(self,text='Refresh',command=lambda: self.optional_labels())
+        self.Button_refresh = tk.Button(self, text='Refresh', command=lambda: self.user_labels())
         self.Button_refresh.place(relx=0.648, rely=0.893, height=24, width=157)
 
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
     def on_show_frame(self,event):
-        self.optional_labels()
+        self.user_labels()
 
     def change_labels(self):
-        self.label_name_out = user_panel.Optional_labels.label_name_out
-        self.label_id_out = user_panel.Optional_labels.label_id_out
+        self.label_name_out = user_panel.User_labels.name
+        self.label_id_out = user_panel.User_labels.id
         self.update()
 
     def back_home(self,controller):
         controller.show_frame(StartPage)
 
 
-    def optional_labels(self):
-        self.label_name_out = tk.Label(self, text=user_panel.Optional_labels.label_name_out)
+    def user_labels(self):
+        self.label_name_out = tk.Label(self, text=user_panel.User_labels().return_var('name'))
         self.label_name_out.place(relx=0.236, rely=0.241, height=21, width=34)
         self.label_name_out.update()
 
-        self.label_id_out = tk.Label(self,text=user_panel.Optional_labels.label_id_out)
+        self.label_id_out = tk.Label(self, text=user_panel.User_labels().return_var('id'))
         self.label_id_out.place(relx=0.236, rely=0.344, height=21, width=34)
         self.label_id_out.update()
 
-        self.label_pl_number_out = tk.Label(self.Frame2,text=user_panel.Optional_labels.label_pl_number_out)
+        self.label_pl_number_out = tk.Label(self.Frame2, text=user_panel.User_labels().return_var('pl_number'))
         self.label_pl_number_out.place(relx=0.514, rely=0.133, height=21, width=64)
         self.label_pl_number_out.update()
 
-        self.label_pl_amount_out = tk.Label(self.Frame2,text=user_panel.Optional_labels.label_pl_amount_out)
+        self.label_pl_amount_out = tk.Label(self.Frame2, text=user_panel.User_labels().return_var('pl_amount'))
         self.label_pl_amount_out.place(relx=0.514, rely=0.533, height=21, width=34)
         self.label_pl_amount_out.update()
 
-        self.label_eur_number_out = tk.Label(self.Frame3,text=user_panel.Optional_labels.label_eur_number_out)
+        self.label_eur_number_out = tk.Label(self.Frame3, text=user_panel.User_labels().return_var('eur_number'))
         self.label_eur_number_out.place(relx=0.514, rely=0.133, height=21, width=34)
         self.label_eur_number_out.update()
 
-        self.label_eur_amount_out = tk.Label(self.Frame3,text=user_panel.Optional_labels.label_eur_amount_out)
+        self.label_eur_amount_out = tk.Label(self.Frame3, text=user_panel.User_labels().return_var('eur_amount'))
         self.label_eur_amount_out.place(relx=0.514, rely=0.533, height=21, width=34)
         self.label_eur_amount_out.update()

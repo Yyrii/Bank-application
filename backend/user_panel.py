@@ -2,13 +2,27 @@ import sql_operations.user_functions as user
 from random_data.numbers import*
 import sql_operations.acc_functions as acc
 
-class Optional_labels():
-    label_name_out = ''
-    label_id_out = ''
-    label_pl_number_out = None
-    label_pl_amount_out = None
-    label_eur_number_out = None
-    label_eur_amount_out = None
+class User_labels():
+    name = ''
+    id = ''
+    pl_number = None
+    pl_amount = None
+    eur_number = None
+    eur_amount = None
+
+    def return_var(self, arg):
+        options_dic = {
+            'name': self.name,
+            'id': self.id,
+            'pl_number' : self.pl_number,
+            'pl_amount' : self.pl_amount,
+            'eur_number' : self.eur_number,
+            'eur_amount' : self.eur_amount
+        }
+        return options_dic[arg]
+
+    #def change_var
+
 
 
 def acc_id_creation(user_id,currency):
@@ -25,4 +39,4 @@ def delete_account(acc_id):
 
 
 def change_name_out(new_name):
-    Optional_labels.label_name_out = new_name
+    User_labels.name = new_name

@@ -5,12 +5,12 @@ from sql_operations.global_variables import*
 
 def add_user(table, name, pl_acc_id='NULL', eur_acc_id='NULL', adress='bank_data\\bank.db'):
     con = connector(adress)
-    parameters = (Global_var.global_user_id, name, pl_acc_id, eur_acc_id)
     with con:
         cur = con.cursor()
         try:
+            Global_var.global_user_id += 1 # GLOBAL USAGE
+            parameters = (Global_var.global_user_id, name, pl_acc_id, eur_acc_id)
             cur.execute("INSERT INTO {} VALUES(?,?,?,?)".format(table), parameters)
-            Global_var.global_user_id += 1
             con.commit()
         except Exception as e:
             print(e)
