@@ -50,8 +50,8 @@ class StartPage(tk.Frame):
             controller.show_frame(UserPanel)
 
     def register(self,controller):
-        front_panel.register(self.Name_input.get())
         if self.Name_input.get() != '':
+            front_panel.register(self.Name_input.get())
             controller.show_frame(UserPanel)
             user_panel.dig_accounts(Global_var().return_current_id())
 
@@ -122,7 +122,7 @@ class UserPanel(tk.Frame):
         self.Button_log_out = tk.Button(self,text='Log out',command=lambda: self.back_home(controller))
         self.Button_log_out.place(relx=0.432, rely=0.206, height=54, width=77)
 
-        self.Button_add_pl_acc = tk.Button(self,text='+',command=lambda : self.add_pl_acc())
+        self.Button_add_pl_acc = tk.Button(self, text='+', command=lambda : self.add_acc('PL'))
         self.Button_add_pl_acc.place(relx=0.904, rely=0.103, height=24, width=27)
 
         self.Button_transfer = tk.Button(self,text='transfer',command=lambda: None)
@@ -134,13 +134,13 @@ class UserPanel(tk.Frame):
         self.Entry_amount = tk.Entry(self)
         self.Entry_amount.place(relx=0.196, rely=0.653, height=20, relwidth=0.244)
 
-        self.Button_add_eur_acc = tk.Button(self,text='+',command=lambda: self.add_eur_acc())
+        self.Button_add_eur_acc = tk.Button(self,text='+',command=lambda: self.add_acc('EUR'))
         self.Button_add_eur_acc.place(relx=0.904, rely=0.481, height=24, width=27)
 
-        self.Button_delete_pl_acc = tk.Button(self,text='-')
+        self.Button_delete_pl_acc = tk.Button(self,text='-',command=lambda: self.delete_pl_acc())
         self.Button_delete_pl_acc.place(relx=0.825, rely=0.103, height=24, width=27)
 
-        self.Button_delete_eur_acc = tk.Button(self,text='-')
+        self.Button_delete_eur_acc = tk.Button(self,text='-',command=lambda: self.delete_eur_acc())
         self.Button_delete_eur_acc.place(relx=0.825, rely=0.481, height=24, width=27)
 
         self.label_entry_number = tk.Label(self,text='number')
@@ -160,24 +160,26 @@ class UserPanel(tk.Frame):
     def on_show_frame(self,event):
         self.user_labels()
 
-
     def back_home(self,controller):
         controller.show_frame(StartPage)
 
-    def add_pl_acc(self):
-        user_panel.add_account(Global_var().return_current_id(),'PL')
+    def add_acc(self,currency):
+        user_panel.add_account(Global_var().return_current_id(),currency)
 
-    def add_eur_acc(self):
-        user_panel.add_account(Global_var().return_current_id(), 'EUR')
+    def delete_pl_acc(self):
+        user_panel.delete_account(user_f.display_data_user(PL_acc_id=Global_var().return_current_id()),Global_var().return_current_id())
+
+    def delete_eur_acc(self):
+        user_panel.delete_account(user_f.display_data_user(EUR_acc_id=Global_var().return_current_id()),Global_var().return_current_id())
 
     def user_labels(self):
         user_panel.dig_accounts(Global_var().return_current_id())
         self.label_name_out = tk.Label(self, text=user_panel.User_labels().return_var('name'))
-        self.label_name_out.place(relx=0.236, rely=0.241, height=21, width=34)
+        self.label_name_out.place(relx=0.206, rely=0.241, height=21, width=74)
         self.label_name_out.update()
 
         self.label_id_out = tk.Label(self, text=user_panel.User_labels().return_var('id'))
-        self.label_id_out.place(relx=0.236, rely=0.344, height=21, width=34)
+        self.label_id_out.place(relx=0.206, rely=0.344, height=21, width=74)
         self.label_id_out.update()
 
         self.label_pl_number_out = tk.Label(self.Frame2, text=user_panel.User_labels().return_var('pl_number'))
@@ -185,7 +187,7 @@ class UserPanel(tk.Frame):
         self.label_pl_number_out.update()
 
         self.label_pl_amount_out = tk.Label(self.Frame2, text=user_panel.User_labels().return_var('pl_amount'))
-        self.label_pl_amount_out.place(relx=0.514, rely=0.533, height=21, width=34)
+        self.label_pl_amount_out.place(relx=0.514, rely=0.533, height=21, width=64)
         self.label_pl_amount_out.update()
 
         self.label_eur_number_out = tk.Label(self.Frame3, text=user_panel.User_labels().return_var('eur_number'))
@@ -193,5 +195,5 @@ class UserPanel(tk.Frame):
         self.label_eur_number_out.update()
 
         self.label_eur_amount_out = tk.Label(self.Frame3, text=user_panel.User_labels().return_var('eur_amount'))
-        self.label_eur_amount_out.place(relx=0.514, rely=0.533, height=21, width=34)
+        self.label_eur_amount_out.place(relx=0.514, rely=0.533, height=21, width=64)
         self.label_eur_amount_out.update()

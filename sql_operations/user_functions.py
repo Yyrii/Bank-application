@@ -53,5 +53,19 @@ def display_data_user(adress='bank_data\\bank.db', user_table='Users', **argumen
         return cur.fetchall()[0][0]
 
 
+def remove_acc_from_user(user_id,currency,adress='bank_data\\bank.db', user_table='Users'):
+    con = connector(adress)
+    with con:
+        cur = con.cursor()
+
+    if currency == 'PL':
+        command = "UPDATE {} SET PL_acc_id = \"NULL\" WHERE user_id = {}".format(user_table,user_id)
+        cur.execute(command)
+        con.commit()
+    elif currency == 'EUR':
+        cur.execute("UPDATE {} SET EUR_acc_id = \"NULL\" WHERE user_id = {}".format(user_table,user_id))
+        con.commit()
+
+
 def clear_table(table='Users',adress='bank_data\\bank.db'):
     user_table(name=table)

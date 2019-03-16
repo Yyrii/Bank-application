@@ -1,6 +1,7 @@
 import sql_operations.user_functions as user
 from random_data.numbers import*
 import sql_operations.acc_functions as acc
+from sql_operations.global_variables import*
 
 class User_labels():
     name = ''
@@ -24,7 +25,6 @@ class User_labels():
 
 
 
-
 def acc_id_creation(user_id,currency):
     return str(user_id)+'_'+currency
 
@@ -35,8 +35,10 @@ def add_account(user_id,currency):
                         number=random_acc_number(), currency=currency)
     #dig_accounts(user_id)
 
-def delete_account(acc_id):
+def delete_account(acc_id,user_id):
     acc.remove_account(acc_id=acc_id)
+    dig_currency=acc_id.split('_')
+    user.remove_acc_from_user(user_id,str(dig_currency[1]))
     #Todo: usunąć połaćzenie z kontem w bazie danych
 
 def dig_accounts(user_id):
@@ -54,3 +56,6 @@ def dig_accounts(user_id):
         #print('user: ',user_id,' has no eur acc')
         User_labels.eur_number = None
         User_labels.eur_amount = None
+
+    User_labels.id = Global_var().return_current_id()
+    User_labels.name = user.display_data_user(name=Global_var().return_current_id())
