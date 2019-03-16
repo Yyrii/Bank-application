@@ -9,8 +9,8 @@ from interface.Pages import*
 
 user_table = 'Users'
 def register(input_name,adress='bank_data\\bank.db'):
-    user.add_user(user_table,input_name,adress=adress)                                      # global +1
-    Global_var().change_current_id(Global_var().return_global_id())                          # current = global
+    user.add_user(user_table,input_name,adress=adress)
+    Global_var.current_user_id = Global_var.global_user_id                        # current = global
     return Global_var().return_current_id()
 
 

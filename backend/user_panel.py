@@ -11,7 +11,7 @@ class User_labels():
     eur_amount = None
 
     def return_var(self, arg):
-        options_dic = {
+        self.options_dic = {
             'name': self.name,
             'id': self.id,
             'pl_number' : self.pl_number,
@@ -19,7 +19,9 @@ class User_labels():
             'eur_number' : self.eur_number,
             'eur_amount' : self.eur_amount
         }
-        return options_dic[arg]
+
+        return self.options_dic[arg]
+
 
 
 
@@ -42,9 +44,13 @@ def dig_accounts(user_id):
     try:
         User_labels.pl_number = acc.display_data_acc(number=pl_acc_id)
     except:
-        print('user: ',user_id,' has no pl acc')
+        #print('user: ',user_id,' has no pl acc')
+        User_labels.pl_number = None
+        User_labels.pl_amount = None
     eur_acc_id = user.display_data_user(EUR_acc_id=user_id)
     try:
         User_labels.eur_number = acc.display_data_acc(number=eur_acc_id)
     except:
-        print('user: ',user_id,' has no eur acc')
+        #print('user: ',user_id,' has no eur acc')
+        User_labels.eur_number = None
+        User_labels.eur_amount = None

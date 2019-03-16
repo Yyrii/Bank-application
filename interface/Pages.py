@@ -53,6 +53,7 @@ class StartPage(tk.Frame):
         front_panel.register(self.Name_input.get())
         if self.Name_input.get() != '':
             controller.show_frame(UserPanel)
+            user_panel.dig_accounts(Global_var().return_current_id())
 
 
 class Stats(tk.Frame):
@@ -133,7 +134,7 @@ class UserPanel(tk.Frame):
         self.Entry_amount = tk.Entry(self)
         self.Entry_amount.place(relx=0.196, rely=0.653, height=20, relwidth=0.244)
 
-        self.Button_add_eur_acc = tk.Button(self,text='+')
+        self.Button_add_eur_acc = tk.Button(self,text='+',command=lambda: self.add_eur_acc())
         self.Button_add_eur_acc.place(relx=0.904, rely=0.481, height=24, width=27)
 
         self.Button_delete_pl_acc = tk.Button(self,text='-')
@@ -162,13 +163,15 @@ class UserPanel(tk.Frame):
 
     def back_home(self,controller):
         controller.show_frame(StartPage)
-        #TODO: reset User_labels 
 
     def add_pl_acc(self):
         user_panel.add_account(Global_var().return_current_id(),'PL')
-        #print(Global_var().return_current_id())
+
+    def add_eur_acc(self):
+        user_panel.add_account(Global_var().return_current_id(), 'EUR')
 
     def user_labels(self):
+        user_panel.dig_accounts(Global_var().return_current_id())
         self.label_name_out = tk.Label(self, text=user_panel.User_labels().return_var('name'))
         self.label_name_out.place(relx=0.236, rely=0.241, height=21, width=34)
         self.label_name_out.update()
