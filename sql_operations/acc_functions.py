@@ -20,7 +20,9 @@ def deposit(acc_id, money, table='Accounts', adress='bank_data\\bank.db'):
     con = connector(adress)
     with con:
         cur = con.cursor()
-        cur.execute("UPDATE {} SET amount=amount + {} WHERE acc_id={}".format(table, money, acc_id))
+    command = "UPDATE {} SET amount=amount + ({}) WHERE acc_id=\"{}\"".format(table, money, acc_id)
+    cur.execute(command)
+    con.commit()
 
 def clear_table(table='Accounts',adress='bank_data\\bank.db'):
     account_table(name=table)
@@ -54,9 +56,24 @@ def display_data_acc(adress='bank_data\\bank.db', acc_table='Accounts',**argumen
         cur = con.cursor()
     for key_word, arg in arguments.items():
 
-        #if check_for_acc(arg):
-
         cur.execute("SELECT {} FROM {} WHERE acc_id = \"{}\"".format(key_word,acc_table,arg))
         return cur.fetchall()[0][0]
-        #else:
-           # print('no account', arg)
+
+
+def user_id_by_acc(number, adress='bank_data\\bank.db', acc_table='Accounts'):
+    con = connector(adress)
+    with con:
+        cur = con.cursor()
+    cur.execute("SELECT acc_id FROM {} WHERE number = \"{}\"".format(acc_table,number))
+    return cur.fetchall()[0][0]
+
+
+def add_everyone_money(adress='bank_data\\bank.db'):
+    con = connector(adress)
+    with con:
+        cur = con.cursor()
+    pl_money = 'UPDATE Accounts SET amount=amount + 500 WHERE currency=\'PL\' '
+    cur.execute(pl_money)
+    eur_money = 'UPDATE Accounts SET amount=amount + (500/4) WHERE currency=\'EUR\' '
+    cur.execute(eur_money)
+    con.commit()

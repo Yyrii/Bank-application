@@ -29,7 +29,7 @@ class StartPage(tk.Frame):
         #TEXT ABOVE INPUT
         self.Name = ttk.Label(self)
         self.Name.place(relx=0.079, rely=0.168, height=19, width=116)
-        self.Name.configure(text='Name')
+        self.Name.configure(text='Name / id')
 
         #LOGIN BUTTON
         self.Log_in_b = tk.Button(self,text='Log in',
@@ -41,6 +41,26 @@ class StartPage(tk.Frame):
         self.Register_b = tk.Button(self,text='Register',command=lambda: self.register(controller))
         self.Register_b.place(relx=0.315, rely=0.382, height=54, width=97)
         self.Register_b.configure(background="#d9d9d8")
+
+        # ADD MONEY EVERYWHERE
+        self.Add_money = tk.Button(self, text="500+",
+                                    command=lambda: self.add_everyone())
+        self.Add_money.configure(background="#d9d9d8")
+        self.Add_money.place(relx=0.315, rely=0.685, height=54, width=97)
+
+        # ADD USERS
+        self.Add_users = tk.Button(self, text="Add 10 users",command=lambda: self.add_n_users())
+        self.Add_users.configure(background="#d9d9d8")
+        self.Add_users.place(relx=0.555, rely=0.685, height=54, width=97)
+
+        # CURRENCIES
+        self.var_pl = 'pl'
+        self.Pl_acc_too = tk.Checkbutton(self,text='with PL acc',variable=self.var_pl)
+        self.Pl_acc_too.place(relx=0.748, rely=0.700, height=14, width=97)
+
+        self.var_eur = 'eur'
+        self.EUR_acc_too = tk.Checkbutton(self, text='with EUR acc', variable=self.var_eur)
+        self.EUR_acc_too.place(relx=0.755, rely=0.790, height=14, width=97)
 
 
     def login(self,controller):
@@ -54,6 +74,12 @@ class StartPage(tk.Frame):
             front_panel.register(self.Name_input.get())
             controller.show_frame(UserPanel)
             user_panel.dig_accounts(Global_var().return_current_id())
+
+    def add_everyone(self):
+        front_panel.money_to_everyone()
+
+    def add_n_users(self):
+        front_panel.add_n_users(pl_acc=int(self.Pl_acc_too.getvar(self.var_pl)),eur_acc=int(self.EUR_acc_too.getvar(self.var_eur)))
 
 
 class Stats(tk.Frame):
@@ -79,6 +105,8 @@ class UserPanel(tk.Frame):
         label = tk.Label(self, text="User Panel", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
         controller.geometry("508x292+492+193")
+
+        self.cb_value = tk.StringVar()
 
         self.Frame1 = tk.Frame(self)
         self.Frame1.place(relx=0.079, rely=0.206, relheight=0.258, relwidth=0.285)
@@ -125,7 +153,7 @@ class UserPanel(tk.Frame):
         self.Button_add_pl_acc = tk.Button(self, text='+', command=lambda : self.add_acc('PL'))
         self.Button_add_pl_acc.place(relx=0.904, rely=0.103, height=24, width=27)
 
-        self.Button_transfer = tk.Button(self,text='transfer',command=lambda: None)
+        self.Button_transfer = tk.Button(self,text='transfer',command=lambda: self.transfer())
         self.Button_transfer.place(relx=0.393, rely=0.756, height=54, width=77)
 
         self.Entry_number = tk.Entry(self)
@@ -150,6 +178,9 @@ class UserPanel(tk.Frame):
         self.label_entry_amount.place(relx=0.079, rely=0.653, height=21, width=48)
 
         self.TCombobox1 = ttk.Combobox(self,textvariable='')
+        self.TCombobox1['values'] = ('PL','EUR')
+        self.TCombobox1.current(0)
+        self.TCombobox1.bind("<<ComboboxSelected>>")
         self.TCombobox1.place(relx=0.196, rely=0.756, relheight=0.072, relwidth=0.163)
 
         self.Button_refresh = tk.Button(self, text='Refresh', command=lambda: self.user_labels())
@@ -157,8 +188,17 @@ class UserPanel(tk.Frame):
 
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
+        self.currencies = ['PL','EUR']
+
     def on_show_frame(self,event):
         self.user_labels()
+        self.Entry_amount.delete(0,'end')
+        self.Entry_number.delete(0, 'end')
+
+    def transfer(self):
+        user_panel.transfer(self.Entry_number.get(),self.Entry_amount.get(),self.currencies[self.TCombobox1.current()])
+        #print(self.Entry_number.get(),self.Entry_amount.get(),self.currencies[self.TCombobox1.current()])
+
 
     def back_home(self,controller):
         controller.show_frame(StartPage)

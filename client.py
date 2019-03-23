@@ -17,11 +17,11 @@ if __name__ == "__main__":
     acc.deposit(1,400,table=acc_table)
 
     create.user_table(user_table)
-    user.add_user(user_table,'ktos')
-    user.add_user(user_table,'ktos2')
-    user.add_user(user_table,'ktos2')
-    user.add_user(user_table,'ktos2')
-    user.add_user(user_table,'ktos2')
+    user.add_user('ktos',table=user_table)
+    user.add_user('kto23s',table=user_table)
+    user.add_user('kt423ros',table=user_table)
+    user.add_user('kto23rs',table=user_table)
+
 
     #print(user.check_for_user(name='kto'))
 
@@ -37,15 +37,19 @@ if __name__ == "__main__":
 
 
 
-    user_panel.add_account(6,'EUR')
+    #user_panel.add_account(6,'EUR')
     user_panel.add_account(1, 'PL')
     user_panel.add_account(2, 'PL')
     user_panel.add_account(3, 'PL')
     #user_panel.delete_account('6_EUR')
 
+    acc.add_everyone_money()
+
     #user_panel.dig_accounts(6)
     #print(user_panel.User_labels().return_var('pl_number'))
     #print(user_panel.User_labels().return_var('eur_number'))
+
+    #print(acc.user_id_by_acc(123452342))
 
     app = BankApplication()
     app.mainloop()
