@@ -2,6 +2,8 @@ import sql_operations.user_functions as user
 from random_data.numbers import*
 import sql_operations.acc_functions as acc
 from sql_operations.global_variables import*
+from rates.ex_rates import*
+import interface.popup as popup
 
 class User_labels():
     name = ''
@@ -39,21 +41,23 @@ def delete_account(acc_id,user_id):
     acc.remove_account(acc_id=acc_id)
     dig_currency=acc_id.split('_')
     user.remove_acc_from_user(user_id,str(dig_currency[1]))
-    #Todo: usunąć połaćzenie z kontem w bazie danych
 
 def transfer(number, amount, currency):
     if acc.check_for_acc(number=number):
         acc_id = acc.user_id_by_acc(number) # data of accaount, we sending money to
         deposit_acc_id = str(Global_var().return_current_id())+'_'+str(currency)   # ex: 6_EUR
-
-        if acc.check_money(deposit_acc_id) >= int(amount) > 0:
-            # part where we find reciver's acc and update it
-            acc.deposit(acc_id,amount)
-            acc.deposit(deposit_acc_id,-1*int(amount))
+        if acc.check_for_acc(acc_id=deposit_acc_id):
+            if acc.check_money(deposit_acc_id) >= int(amount) > 0:
+                # part where we find reciver's acc and update it
+                acc.deposit(acc_id,int(int(amount)*(rate(currency)/rate(acc.display_data_acc(currency=acc_id)))))
+                acc.deposit(deposit_acc_id,-1*int(amount))
+            else:
+                pass # pop up message
         else:
-            pass # pop up message
+            popup.popup_message('\tyou dont have the account, you want to sent money form\t\t')
     else:
-        print('no such account')
+        popup.popup_message('\tno such account found\t\t')
+
 
 
 def dig_accounts(user_id):

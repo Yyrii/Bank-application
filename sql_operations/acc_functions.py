@@ -1,5 +1,6 @@
 from sql_operations.connection import*
 from sql_operations.table_creation import*
+from rates.ex_rates import*
 
 
 def add_account(acc_id, holder, number, amount=0, table='Accounts', currency='PL', adress='bank_data\\bank.db'):
@@ -72,8 +73,8 @@ def add_everyone_money(adress='bank_data\\bank.db'):
     con = connector(adress)
     with con:
         cur = con.cursor()
-    pl_money = 'UPDATE Accounts SET amount=amount + 500 WHERE currency=\'PL\' '
+    pl_money = 'UPDATE Accounts SET amount=amount + {} WHERE currency=\'PL\' '.format(500)
     cur.execute(pl_money)
-    eur_money = 'UPDATE Accounts SET amount=amount + (500/4) WHERE currency=\'EUR\' '
+    eur_money = 'UPDATE Accounts SET amount=amount + ({}) WHERE currency=\'EUR\' '.format(int(500/rate('EUR')))
     cur.execute(eur_money)
     con.commit()

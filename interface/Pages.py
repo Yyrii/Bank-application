@@ -4,6 +4,11 @@ import sql_operations.user_functions as user_f
 from sql_operations.global_variables import*
 import backend.user_panel as user_panel
 import backend.front_panel as front_panel
+import interface.popup as popup
+import face_recognition.face_images as f_images
+import face_recognition.faces_train as f_train
+import face_recognition.identificator as identification
+import os
 
 LARGE_FONT = ("Verdana", 12)
 
@@ -62,18 +67,49 @@ class StartPage(tk.Frame):
         self.EUR_acc_too = tk.Checkbutton(self, text='with EUR acc', variable=self.var_eur)
         self.EUR_acc_too.place(relx=0.755, rely=0.790, height=14, width=97)
 
+        #REGISTER WITH FACE RECOGNITION
+        self.Facial_register = tk.Button(self, text='Register via face',command=lambda: self.register(controller,with_face=True))
+        self.Facial_register.place(relx=0.555, rely=0.382, height=54, width=97)
+        self.Facial_register.configure(background="#d9d9d8")
+
+        #LOGIN WITH FACE RECOGNITION
+        self.Facial_login = tk.Button(self, text='Login via face',command=lambda: self.login_via_face(controller))
+        self.Facial_login.place(relx=0.775, rely=0.382, height=54, width=97)
+        self.Facial_login.configure(background="#d9d9d8")
+
 
     def login(self,controller):
         current_user = front_panel.login(self.Name_input.get())
-        user_panel.dig_accounts(Global_var().return_current_id())
-        if current_user:
-            controller.show_frame(UserPanel)
+        if user_f.check_for_user(user_id=self.Name_input.get()):
+            user_panel.dig_accounts(Global_var().return_current_id())
+            if current_user:
+                controller.show_frame(UserPanel)
 
-    def register(self,controller):
+    def register(self,controller,with_face = False):
         if self.Name_input.get() != '':
             front_panel.register(self.Name_input.get())
-            controller.show_frame(UserPanel)
             user_panel.dig_accounts(Global_var().return_current_id())
+            if not with_face:
+                popup.popup_message('\tYou need to use your id:\t<<\t{}\t>>\tto login next time\t\t '.format(Global_var().return_current_id()))
+
+            else:
+                f_images.make_face_images(40,self.Name_input.get()+'_'+str(Global_var().return_current_id()))
+                f_train.train()
+            controller.show_frame(UserPanel)
+            popup.popup_message('please be patient, now the facial models, are being updated')
+
+
+    def login_via_face(self,controller):
+        try:
+            os.listdir('face_recognition/images/')
+            f_iden = identification.identificate()
+            if user_f.check_for_user(user_id=f_iden[1]):
+                user_panel.dig_accounts(Global_var().return_current_id())
+                if f_iden[1]:
+                    controller.show_frame(UserPanel)
+        except:
+            print('not anyone registered')
+
 
     def add_everyone(self):
         front_panel.money_to_everyone()
@@ -92,10 +128,6 @@ class Stats(tk.Frame):
         button1 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(UserPanel))
         button1.pack()
-
-
-def printer(arg):
-    print(arg)
 
 
 
