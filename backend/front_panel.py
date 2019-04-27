@@ -1,6 +1,6 @@
 import sql_operations.user_functions as user
 import sql_operations.acc_functions as acc
-from random_data.id_name import*
+from random_data.random_name import*
 from random_data.numbers import*
 from sql_operations.global_variables import*
 import backend.user_panel as user_panel

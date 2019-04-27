@@ -31,8 +31,8 @@ def identificate():
         gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray,scaleFactor=1.5,minNeighbors=4)
         for (x,y,w,h) in faces:     #width, height
-            roi_gray = gray[y:y+h,x:x+w]
-            roi_color = frame[y:y + h, x:x + w]
+            roi_gray = gray[y:y+h,x:x+w]    #region of intrest
+
             #recognition part
             id_,conf = recognizer.predict(roi_gray)
             if conf >4 and conf <85:# and conf <99:

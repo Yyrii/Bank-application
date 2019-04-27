@@ -78,6 +78,21 @@ class StartPage(tk.Frame):
         self.Facial_login.configure(background="#d9d9d8")
 
 
+    def register(self,controller,with_face = False):
+        if self.Name_input.get() != '':
+            front_panel.register(self.Name_input.get())
+            controller.show_frame(UserPanel)
+            user_panel.dig_accounts(Global_var().return_current_id())
+            if not with_face:
+                popup.popup_message('\tYou need to use your id:\t<<\t{}\t>>\tto login next time\t\t '.format(Global_var().return_current_id()))
+
+            else:
+                f_images.make_face_images(40,self.Name_input.get()+'_'+str(Global_var().return_current_id()))
+                popup.popup_message('please be patient, now the facial models, are being updated')
+                f_train.train()
+                popup.popup_message('done')
+
+
     def login(self,controller):
         current_user = front_panel.login(self.Name_input.get())
         if user_f.check_for_user(user_id=self.Name_input.get()):
@@ -85,26 +100,14 @@ class StartPage(tk.Frame):
             if current_user:
                 controller.show_frame(UserPanel)
 
-    def register(self,controller,with_face = False):
-        if self.Name_input.get() != '':
-            front_panel.register(self.Name_input.get())
-            user_panel.dig_accounts(Global_var().return_current_id())
-            if not with_face:
-                popup.popup_message('\tYou need to use your id:\t<<\t{}\t>>\tto login next time\t\t '.format(Global_var().return_current_id()))
-
-            else:
-                f_images.make_face_images(40,self.Name_input.get()+'_'+str(Global_var().return_current_id()))
-                f_train.train()
-            controller.show_frame(UserPanel)
-            popup.popup_message('please be patient, now the facial models, are being updated')
-
-
     def login_via_face(self,controller):
         try:
             os.listdir('face_recognition/images/')
             f_iden = identification.identificate()
+            Global_var.current_user_id = f_iden[1]
             if user_f.check_for_user(user_id=f_iden[1]):
                 user_panel.dig_accounts(Global_var().return_current_id())
+
                 if f_iden[1]:
                     controller.show_frame(UserPanel)
         except:
